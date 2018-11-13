@@ -72,21 +72,30 @@ class Asset_PC_LogDisk(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     caption = db.Column(db.String)
     freespace = db.Column(db.Integer)
-    physical_disk_id
     totalsize = db.Column(db.Integer)
     filesystem = db.Column(db.String)
     mediatype = db.Column(db.String)
     partition_type = db.Column(db.String)
+    asset_pc_id = 
 
-//software
-software_id
-displayname
-version
-uninstall_command
-publisher
-asset_id
+class Asset_PC_Software(db.Model):
+    """
+    Each software installed on PC is added as a record
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    displayname = db.Column(db.String)
+    version = db.Column(db.String)
+    uninstall_command = db.Column(db.String)
+    publisher = db.Column(db.String)
+    asset_pc_id = 
 
-//users
-user_id
-username
-department
+class Asset_PC_Users(db.Model):
+    """
+    Contains a record, for every user which has used the PC
+    Can't decide if will do automatically, or just monitor
+    from asset creation and start from there...
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String)
+    department = db.Column(db.String)
+    asset_pc_id = 
