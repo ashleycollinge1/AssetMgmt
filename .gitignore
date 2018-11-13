@@ -1,3 +1,8 @@
 env/*
 .vscode/settings.json
 __pycache__/*
+app/__pycache__/__init__.cpython-37.pyc
+app/mod_auth/__pycache__/__init__.cpython-37.pyc
+app/mod_auth/__pycache__/controllers.cpython-37.pyc
+app/mod_auth/__pycache__/models.cpython-37.pyc
+app.db
