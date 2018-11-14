@@ -101,3 +101,18 @@ def delete_asset(serialnumber):
             return jsonify({"Error": "something went wrong with sql"})
     else:
         return jsonify({"Error": "record does not exist"})
+
+@mod_api.route('/assets/<asset_id>/decommission', methods=['GET'])
+def decommission_asset(asset_id):
+    """
+    Take AssetID from the url and perform the decommission
+    on the asset.
+    """
+    asset = db.session.query(Asset).filter_by(id=asset_id).first()
+    asset.status = "Decommissioned"
+    try:
+        db.session.commit()
+        return jsonify({"asset decommissioned": "success"})
+    except SQLAlchemyError:
+        db.session.rollback()
+        return jsonify({"sql error": "success"})
