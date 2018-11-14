@@ -28,7 +28,12 @@
                 </label>
                 <input type="text" class="form-control input-sm" id="FilterID" value="" onkeyup="Filter()"/>
             </div>
-            
+            <div class="col-xs-2">
+                    <label for="FilterPO">
+                        Purchase Order
+                    </label>
+                    <input type="text" class="form-control input-sm" id="FilterPO" value="" onkeyup="Filter()"/>
+            </div>
             <div class="col-xs-2">
                 <label for="FilterID">
                     Asset Type
@@ -130,7 +135,24 @@
                         };
                 };
 
-                console.log(AssetType_Filter);
+                var PO_input, PO_filter, table, tr, td, i;
+                PO_input = document.getElementById("FilterPO");
+                PO_filter = PO_input.value.toUpperCase();
+
+                table = document.getElementById("showData");
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[4];
+                        if (td) {
+                            if (td.innerHTML.toUpperCase().indexOf(PO_filter) > -1) {
+                                //tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            };
+                        };
+                };
+
+                console.log(AssetType_Filter);FilterPO
             };
         function CreateTableFromJSON(filter) {
             fetch('http://127.0.0.1:5000/api/assets')
@@ -162,6 +184,8 @@
                     th.innerHTML = col[i];
                     tr.appendChild(th);
                 };
+                var th = document.createElement("th"); 
+                tr.appendChild(th);
                             // ADD JSON DATA TO THE TABLE AS ROWS.
                 for (var i = 0; i < myBooks.length; i++) {
         
