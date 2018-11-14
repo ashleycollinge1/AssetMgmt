@@ -8,17 +8,45 @@
 
 {% block content %}
 <div class=".col-sm-12">
-  <div class="col-sm-10">
-      <h1>Assets</h1>
-        <table class="table table-bordered" id="showData"></table>
+        <h1>Assets</h1>
+        <div class="containter">
+        <button type="button" class="btn btn-primary">New Asset</button>
+        <button type="button" class="btn btn-warning">Decommission Asset</button>
+        <button type="button" class="btn btn-danger">Delete Asset</button>
     </div>
-
-<div class="col-sm-2">
-    <h2>Filter</h2>
-    Serial Number: <input type="text" class="form-control input-sm" id="FilterSerialNumber" value="" onkeyup="Filter()" />
-    ID: <input type="text" class="form-control input-sm"id="FilterID" value="" onkeyup="Filter()" />
-    Status: <input type="text" class="form-control input-sm" id="FilterID" value="" onkeyup="Filter()" />
-</div>
+    <div class=.col-sm-12">
+            <br />
+            <div class="col-xs-2">
+                <label for="FilterSerialNumber">
+                    Serial Number
+                </label>
+                <input type="text" class="form-control input-sm" id="FilterSerialNumber" value="" onkeyup="Filter()"/>
+            </div>
+            <div class="col-xs-2">
+                <label for="FilterID">
+                    ID
+                </label>
+                <input type="text" class="form-control input-sm" id="FilterID" value="" onkeyup="Filter()"/>
+            </div>
+            <div class="col-xs-2">
+                <label for="FilterID">
+                    Asset Type
+                </label>
+                <div class="dropdown">
+                        <select id="thedropdown" class="form-control" onchange="Filter()">
+                                <option id="Test" value="1" onclick="Filter()">one</option>
+                                <option value="2">two</option>
+                                <option value="" selected="selected">All</option>
+                            </select>
+                </div>
+            </div>
+    </div>
+  <div class="col-sm-12">
+      
+      <h6>
+        <table class="table .table-condensed" id="showData"></table>
+    </h6>
+    </div>
 </div>
   <script>
       function Filter() {
@@ -54,6 +82,25 @@
                             };
                         };
                 };
+
+                var AT_input, AT_filter, table, tr, td, i;
+                AT_input = document.getElementById("thedropdown");
+                AT_filter = AT_input.value.toUpperCase();
+
+                table = document.getElementById("showData");
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[0];
+                        if (td) {
+                            if (td.innerHTML.toUpperCase().indexOf(AT_filter) > -1) {
+                                //tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            };
+                        };
+                };
+
+                console.log(AssetType_Filter);
             };
         function CreateTableFromJSON(filter) {
             fetch('http://127.0.0.1:5000/api/assets')
@@ -74,6 +121,7 @@
                             // CREATE DYNAMIC TABLE.
                 var table = document.createElement("table");
                 table.classList.add("table");
+                table.classList.add(".table-condensed");
 
                 // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
 
@@ -108,7 +156,7 @@
                 CreateTableFromJSON();
                 //updatetable()
                 //updatetable2()
-            }, refreshinterval.value);
+            }, 10000);
         };
         function showMe(e) {
         CreateTableFromJSON(e.value);
