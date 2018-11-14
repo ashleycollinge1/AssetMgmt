@@ -28,6 +28,7 @@
                 </label>
                 <input type="text" class="form-control input-sm" id="FilterID" value="" onkeyup="Filter()"/>
             </div>
+            
             <div class="col-xs-2">
                 <label for="FilterID">
                     Asset Type
@@ -38,6 +39,18 @@
                                 <option value="2">two</option>
                                 <option value="" selected="selected">All</option>
                             </select>
+                </div>
+            </div>
+            <div class="col-xs-2">
+                <label for="Status">
+                    Status
+                </label>
+                <div class="dropdown">
+                    <select id="statusdropdown" class="form-control" onchange="Filter()">
+                        <option id="StatusDecom" value="Decommissioned">Decommissioned</option>
+                        <option id="Active" value="Active">Active</option>
+                        <option id="StatusDecom" value="" selected="selected">All</option>
+                    </select>
                 </div>
             </div>
     </div>
@@ -93,6 +106,23 @@
                     td = tr[i].getElementsByTagName("td")[0];
                         if (td) {
                             if (td.innerHTML.toUpperCase().indexOf(AT_filter) > -1) {
+                                //tr[i].style.display = "";
+                            } else {
+                                tr[i].style.display = "none";
+                            };
+                        };
+                };
+
+                var St_input, St_filter, table, tr, td, i;
+                St_input = document.getElementById("statusdropdown");
+                St_filter = St_input.value.toUpperCase();
+
+                table = document.getElementById("showData");
+                tr = table.getElementsByTagName("tr");
+                for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[6];
+                        if (td) {
+                            if (td.innerHTML.toUpperCase().indexOf(St_filter) > -1) {
                                 //tr[i].style.display = "";
                             } else {
                                 tr[i].style.display = "none";
