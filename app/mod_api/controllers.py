@@ -102,6 +102,7 @@ def delete_asset(serialnumber):
     else:
         return jsonify({"Error": "record does not exist"})
 
+
 @mod_api.route('/assets/<asset_id>/decommission', methods=['GET'])
 def decommission_asset(asset_id):
     """
