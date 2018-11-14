@@ -45,6 +45,15 @@ class Asset_Location(db.Model):
     notes = db.Column(db.String)
 
 
+class Asset_Category(db.Model):
+    """
+    Different categories to assign to each asset.
+    Can be created by users
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String)
+
+
 class Asset_PC_NetInt(db.Model):
     """
     Record for each network interface on each PC
