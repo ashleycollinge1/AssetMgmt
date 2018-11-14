@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from flask.ext.sqlalchemy import exc
+from sqlalchemy.exc import SQLAlchemyError
 from app import db
 from app.mod_api.models import Asset
 
@@ -76,7 +76,7 @@ def get_assets():
                                             new_asset.serialnumber,
                                             "date_created":
                                             new_asset.date_created}})
-            except exc.SQLAlchemyError:
+            except SQLAlchemyError:
                 db.session.rollback()
                 return jsonify({'error': 'failed for sql reason'})
 
@@ -96,7 +96,7 @@ def delete_asset(serialnumber):
             return jsonify({"record deleted": {"id": asset.id,
                                                "serialnumber":
                                                asset.serialnumber}})
-        except exc.SQLAlchemyError:
+        except SQLAlchemyError:
             db.session.rollback()
             return jsonify({"Error": "something went wrong with sql"})
     else:
