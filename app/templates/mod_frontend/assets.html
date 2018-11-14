@@ -7,10 +7,19 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Assets</h1>
+<div class=".col-sm-12">
+  <div class="col-sm-10">
+      <h1>Assets</h1>
+        <table class="table table-bordered" id="showData"></table>
+    </div>
 
-Refresh interval: <input type="text" id="RefreshInterval" value="10000" onkeyup="" />
-
+<div class="col-sm-2">
+    <h2>Filter</h2>
+    Serial Number: <input type="text" class="form-control input-sm" id="FilterSerialNumber" value="" onkeyup="Filter()" />
+    ID: <input type="text" class="form-control input-sm"id="FilterID" value="" onkeyup="Filter()" />
+    Status: <input type="text" class="form-control input-sm" id="FilterID" value="" onkeyup="Filter()" />
+</div>
+</div>
   <script>
       function Filter() {
                 var SN_input, SN_filter, table, tr, td, i;
@@ -64,6 +73,7 @@ Refresh interval: <input type="text" id="RefreshInterval" value="10000" onkeyup=
                 };
                             // CREATE DYNAMIC TABLE.
                 var table = document.createElement("table");
+                table.classList.add("table");
 
                 // CREATE HTML TABLE HEADER ROW USING THE EXTRACTED HEADERS ABOVE.
 
@@ -149,9 +159,4 @@ Refresh interval: <input type="text" id="RefreshInterval" value="10000" onkeyup=
             };
             
     </script>
-    <div id="hello">  <p id="showData"></p></div>
-
-<p>Filters</p>
-  Filter by Serial Number: <input type="text" id="FilterSerialNumber" value="" onkeyup="Filter()" />
-  Filter by ID: <input type="text" id="FilterID" value="" onkeyup="Filter()" />
 {% endblock %}
