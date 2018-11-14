@@ -7,11 +7,8 @@ from app import db
 mod_frontend = Blueprint('frontend', __name__, url_prefix='/frontend')
 
 # Set the route and accepted methods
-@mod_frontend.route('/', methods=['GET'])
-def default():
-    return "Hello"
-
 @mod_frontend.route('/dashboard', methods=['GET'])
+@mod_frontend.route('/', methods=['GET'])
 def dashboard():
     """
     Returns the dashboard view
@@ -23,4 +20,4 @@ def assets():
     """
     Returns the view for assets
     """
-    return "assets testing"
+    return render_template("mod_frontend/assets.html")
