@@ -6,3 +6,6 @@ app/mod_auth/__pycache__/__init__.cpython-37.pyc
 app/mod_auth/__pycache__/controllers.cpython-37.pyc
 app/mod_auth/__pycache__/models.cpython-37.pyc
 app.db
+app/mod_api/__pycache__/controllers.cpython-37.pyc
+app/mod_api/__pycache__/__init__.cpython-37.pyc
+app/mod_api/__pycache__/models.cpython-37.pyc
