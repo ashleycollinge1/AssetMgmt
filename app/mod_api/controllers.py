@@ -12,10 +12,26 @@ mod_api = Blueprint('api', __name__, url_prefix='/api')
 def get_assets():
     """
     Gets assets and returns them in JSON format.
+    POST Can post data to this endpoint and will add it
+    into SQL. Must include a serial number to use as
+    unique id within the app.
+    Filtering, allows searching through the assets based
+    on search values: serialnumber, id
     """
     if request.method == 'GET':
         json_results = []
-        results = db.session.query(Asset).all()
+        if request.args.get('serialnumber'):
+            results = db.session.query(Asset).filter_by(serialnumber = request.args.get('serialnumber')).all()
+        elif request.args.get('id'):
+            results = db.session.query(Asset).filter_by(id = request.args.get('id')).all()
+        elif request.args.get('purchaseordernumber'):
+            results = db.session.query(Asset).filter_by(purchaseordernumber = request.args.get('purchaseordernumber')).all()
+        elif request.args.get('asset_type'):
+            results = db.session.query(Asset).filter_by(asset_type = request.args.get('asset_type')).all()
+        elif request.args.get('status'):
+            results = db.session.query(Asset).filter_by(status = request.args.get('status')).all()
+        else:
+            results = db.session.query(Asset).all()
         for asset in results:
             new_asset = {}
             new_asset['id'] = asset.id
