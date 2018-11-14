@@ -11,3 +11,5 @@ mod_auth = Blueprint('auth', __name__, url_prefix='/auth')
 @mod_auth.route('/signin/', methods=['GET'])
 def signin():
     return "Hello"
+
+    
