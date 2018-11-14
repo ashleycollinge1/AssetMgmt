@@ -42,6 +42,8 @@ def get_assets():
             new_asset['purchaseordernumber'] = asset.purchaseordernumber
             new_asset['asset_type'] = asset.asset_type
             json_results.append(new_asset)
+        if not json_results:
+            return jsonify({"Error": "No results found."})
         return jsonify(json_results)
     if request.method == 'POST':
         if request.get_json():
