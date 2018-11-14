@@ -10,11 +10,10 @@ class Asset(db.Model):
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
     date_modified = db.Column(db.DateTime,  default=db.func.current_timestamp(),
                                            onupdate=db.func.current_timestamp())
-    status
-    location_id = 
-    serialnumber
-    purchaseordernumber
-    type
+    status = db.Column(db.String)
+    serialnumber = db.Column(db.String)
+    purchaseordernumber = db.Column(db.String)
+    asset_type = db.Column(db.String)
 
 class Asset_PC(db.Model):
     """
@@ -29,8 +28,8 @@ class Asset_PC(db.Model):
                                            onupdate=db.func.current_timestamp())
     hostname = db.Column(db.String)
     domain = db.Column(db.String)
-    operating_system = db.Column(String)
-    service_pack_version = db.Column(String)
+    operating_system = db.Column(db.String)
+    service_pack_version = db.Column(db.String)
     last_bootup_time = db.Column(db.DateTime)
 
 class Asset_Location(db.Model):
@@ -51,12 +50,10 @@ class Asset_PC_NetInt(db.Model):
     mac_address = db.Column(db.String)
     subnet_mask = db.Column(db.String)
     gateway = db.Column(db.String)
-    asset_pc_id = 
-
+    #asset_pc_id = 
+"""
 class Asset_PC_PhysDisk(db.Model):
-    """
-    Record for each physical disk on each PC
-    """
+    #Record for each physical disk on each PC
     id = db.Column(db.Integer, primary_key=True)
     caption = db.Column(db.String)
     freespace = db.Column(db.Integer)
@@ -66,9 +63,6 @@ class Asset_PC_PhysDisk(db.Model):
     asset_pc_id = 
 
 class Asset_PC_LogDisk(db.Model):
-    """
-    Record for each logical disk on each pc
-    """
     id = db.Column(db.Integer, primary_key=True)
     caption = db.Column(db.String)
     freespace = db.Column(db.Integer)
@@ -79,9 +73,6 @@ class Asset_PC_LogDisk(db.Model):
     asset_pc_id = 
 
 class Asset_PC_Software(db.Model):
-    """
-    Each software installed on PC is added as a record
-    """
     id = db.Column(db.Integer, primary_key=True)
     displayname = db.Column(db.String)
     version = db.Column(db.String)
@@ -90,12 +81,9 @@ class Asset_PC_Software(db.Model):
     asset_pc_id = 
 
 class Asset_PC_Users(db.Model):
-    """
-    Contains a record, for every user which has used the PC
-    Can't decide if will do automatically, or just monitor
-    from asset creation and start from there...
-    """
+
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String)
     department = db.Column(db.String)
     asset_pc_id = 
+    """
