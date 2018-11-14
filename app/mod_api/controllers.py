@@ -1,11 +1,11 @@
-from flask import Blueprint, request, render_template, \
-                  flash, g, session, redirect, url_for, jsonify
-from werkzeug import check_password_hash, generate_password_hash
+from flask import Blueprint, request, jsonify
+from flask.ext.sqlalchemy import exc
 from app import db
 from app.mod_api.models import Asset
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
 mod_api = Blueprint('api', __name__, url_prefix='/api')
+
 
 # Set the route and accepted methods
 @mod_api.route('/assets', methods=['GET', 'POST'])
@@ -21,15 +21,21 @@ def get_assets():
     if request.method == 'GET':
         json_results = []
         if request.args.get('serialnumber'):
-            results = db.session.query(Asset).filter_by(serialnumber = request.args.get('serialnumber')).all()
+            results = db.session.query(Asset).filter_by(
+                serialnumber=request.args.get('serialnumber')).all()
         elif request.args.get('id'):
-            results = db.session.query(Asset).filter_by(id = request.args.get('id')).all()
+            results = db.session.query(Asset).filter_by(
+                id=request.args.get('id')).all()
         elif request.args.get('purchaseordernumber'):
-            results = db.session.query(Asset).filter_by(purchaseordernumber = request.args.get('purchaseordernumber')).all()
+            results = db.session.query(Asset).filter_by(
+                purchaseordernumber=request.args.get('purchaseordernumber')
+                ).all()
         elif request.args.get('asset_type'):
-            results = db.session.query(Asset).filter_by(asset_type = request.args.get('asset_type')).all()
+            results = db.session.query(Asset).filter_by(
+                asset_type=request.args.get('asset_type')).all()
         elif request.args.get('status'):
-            results = db.session.query(Asset).filter_by(status = request.args.get('status')).all()
+            results = db.session.query(Asset).filter_by(
+                status=request.args.get('status')).all()
         else:
             results = db.session.query(Asset).all()
         for asset in results:
@@ -50,23 +56,30 @@ def get_assets():
             json_data = request.get_json()
             new_asset = Asset()
             if json_data['serialnumber']:
-                if db.session.query(Asset).filter_by(serialnumber = json_data['serialnumber']).first():
-                    return jsonify({"error": "serialnumber must be unique, already found in db."})
+                query = db.session.query(Asset).filter_by(
+                    serialnumber=json_data['serialnumber']).first()
+                if query:
+                    return jsonify({"error":
+                                    "serialnumber must be unique, already"
+                                    "found in db."})
                 else:
                     new_asset.serialnumber = json_data['serialnumber']
             else:
-                return jsonify({'error':'missing serialnumber'})
+                return jsonify({'error': 'missing serialnumber'})
             if 'hostname' in json_data.keys():
                 new_asset.hostname = json_data['hostname']
             db.session.add(new_asset)
             try:
                 db.session.commit()
                 return jsonify({"success": {"id": new_asset.id,
-                "serialnumber": new_asset.serialnumber,
-                "date_created": new_asset.date_created}})
-            except:
+                                            "serialnumber":
+                                            new_asset.serialnumber,
+                                            "date_created":
+                                            new_asset.date_created}})
+            except exc.SQLAlchemyError:
                 db.session.rollback()
-                return jsonify({'error':'failed for sql reason'})
+                return jsonify({'error': 'failed for sql reason'})
+
 
 @mod_api.route('/assets/<serialnumber>/delete', methods=['GET'])
 def delete_asset(serialnumber):
@@ -74,14 +87,16 @@ def delete_asset(serialnumber):
     Takes the var serialnumber from the URL and performs the delete
     operation on the asset, removing it from the DB.
     """
-    asset = db.session.query(Asset).filter_by(serialnumber = serialnumber).first()
+    asset = db.session.query(Asset).filter_by(
+            serialnumber=serialnumber).first()
     if asset:
         db.session.delete(asset)
         try:
             db.session.commit()
             return jsonify({"record deleted": {"id": asset.id,
-                                                "serialnumber": asset.serialnumber}})
-        except:
+                                               "serialnumber":
+                                               asset.serialnumber}})
+        except exc.SQLAlchemyError:
             db.session.rollback()
             return jsonify({"Error": "something went wrong with sql"})
     else:
