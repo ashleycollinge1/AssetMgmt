@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}Assets{% endblock %}
+
+{% block head %}
+  {{ super() }}
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class=".col-lg-12">
+                <h1>{{ asset_id }}</h1>
+        </div>
+    </div>
+
+    <div class="row"></div>
+<div class=".col-lg-10">
+
+</div>
+<div class=".col-lg-2">
+
+        <div class="col-lg-4">
+                <div style="border-right: 5px solid grey;" class="col-*-*">
+                    Asset ID:
+                </div>
+                <div style="border-right: 5px solid grey;" class="col-*-*">Date Created:</div>
+                <div style="border-right: 5px solid grey;" class="col-*-*">Date Modified:</div>
+</div>
+<div class="col-lg-4">
+        <div class="col-*-*">
+                {{ asset_information.id }}
+            </div>
+            <div class="col-*-*">{{ asset_information.date_created }}</div>
+            <div class="col-*-*">{{ asset_information.date_modified }}</div>
+    </div>
+</div>
+
+</div>
+  
+{% endblock %}
