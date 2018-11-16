@@ -35,7 +35,7 @@ def setup_logging():
     logger.setLevel(logging.DEBUG)
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s '
                                   '- %(message)s')
-    file_handler = logging.FileHandler('C:\\clear\\log.log')
+    file_handler = logging.FileHandler('C:\\log.log')
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
     return logger
@@ -45,15 +45,15 @@ class AppServerSvc(win32serviceutil.ServiceFramework):
     """
     Main class which allows controlling the service from Windows
     """
-    _svc_name_ = "SELAgent-Server"
-    _svc_display_name_ = "SELAgent Server"
+    _svc_name_ = "AssetMgmtClient"
+    _svc_display_name_ = "AssetMgmt Client"
 
     def __init__(self, args):
         """
         Create the new service, create new event stating service is starting
         """
         self.logger = setup_logging()
-        self.logger.info('Started SELAgent-Server')
+        self.logger.info('Started AssetMgmtClient')
         win32serviceutil.ServiceFramework.__init__(self, args)
         self.h_waitstop = win32event.CreateEvent(None, 0, 0, None)
         socket.setdefaulttimeout(60)
@@ -67,7 +67,7 @@ class AppServerSvc(win32serviceutil.ServiceFramework):
         self.ReportServiceStatus(win32service.SERVICE_STOP_PENDING)
         win32event.SetEvent(self.h_waitstop)
         self.stop_requested = True
-        self.logger.info('Stopped requested')
+        self.logger.info('Stop requested')
 
     def SvcDoRun(self):
         """
