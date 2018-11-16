@@ -84,20 +84,11 @@ class AppServerSvc(win32serviceutil.ServiceFramework):
         creates a new thread for the web server and starts it
         Waits for stop requested to stop the web server thread
         """
-        flask_app = create_app()
-        web_server = make_server('localhost', 8002, flask_app)
-        web_server_process = Thread(
-            target=web_server.serve_forever)
 
         # start service loop
         while 1:
             time.sleep(2)
             if self.stop_requested:
-                self.logger.info('Shutting down web server')
-                web_server.shutdown()
-                self.logger.info('Shutting down web server2')
-                web_server_process.join(timeout=2)
-                self.logger.info('Shutting down web server3')
                 break  # break out of service loop as stop requested
 
 
