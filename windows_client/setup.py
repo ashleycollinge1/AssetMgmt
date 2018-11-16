@@ -14,7 +14,7 @@ from cx_Freeze import setup, Executable
 
 options = {
     'build_exe': {
-        'includes': ['client', 'cx_Logging']
+        'includes': ['ServiceHandler', 'cx_Logging']
     }
 }
 
