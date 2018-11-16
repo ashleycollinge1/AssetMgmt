@@ -18,13 +18,10 @@ import sys
 import time
 import socket
 import logging
-from threading import Thread
-from wsgiref.simple_server import make_server
 import win32serviceutil
 import win32service
 import win32event
 import servicemanager
-from webapp.factory import create_app
 
 
 def setup_logging():
