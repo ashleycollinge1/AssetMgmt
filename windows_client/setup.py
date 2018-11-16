@@ -1,42 +1,31 @@
-#setup.py
+# -*- coding: utf-8 -*-
+
+# A simple setup script for creating a Windows service. See the comments in the
+# Config.py and ServiceHandler.py files for more information on how to set this
+# up.
+#
+# Installing the service is done with the option --install <Name> and
+# uninstalling the service is done with the option --uninstall <Name>. The
+# value for <Name> is intended to differentiate between different invocations
+# of the same service code -- for example for accessing different databases or
+# using different configuration files.
+
 from cx_Freeze import setup, Executable
 
-shortcut_table = [
-    ("Startmenushortcut",        # Shortcut
-     "StartMenuFolder",          # Directory_
-     "AssetMgmt",           # Name
-     "TARGETDIR",              # Component_
-     "[TARGETDIR]client.exe",# Target
-     None,                     # Arguments
-     None,                     # Description
-     None,                     # Hotkey
-     None,                     # Icon
-     None,                     # IconIndex
-     None,                     # ShowCmd
-     'TARGETDIR'               # WkDir
-     ),
-    ("Startupfoldershortcut",
-    	"StartupFolder",
-    	"AssetMgmt",
-    	"TARGETDIR",
-    	"[TARGETDIR]client.exe",
-    	None,
-    	None,
-    	None,
-    	None,
-    	None,
-    	None,
-    	'TARGETDIR')
-    ]
+options = {
+    'build_exe': {
+        'includes': ['client', 'cx_Logging']
+    }
+}
 
-msi_data = {"Shortcut": shortcut_table}
-bdist_msi_options = {'data': msi_data, 'upgrade_code': '{66620F3A-DC3A-11E2-B341-002219E9B01E}'}
+executables = [
+    Executable('Config.py', base='Win32Service',
+               targetName='cx_FreezeSampleService.exe')
+]
 
-setup(
-    name = "AssetMgmt",
-    version = "0.0.1",
-    options = {"build_exe": {
-        'include_msvcr': True,},
-        "bdist_msi": bdist_msi_options,},
-    executables = [Executable("client.py")]
-    )
+setup(name='cx_FreezeSampleService',
+      version='0.1',
+      description='Sample cx_Freeze Windows serice',
+      executables=executables,
+      options=options
+      )
