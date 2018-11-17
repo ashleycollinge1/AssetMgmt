@@ -23,6 +23,8 @@ import win32service
 import win32event
 import servicemanager
 
+CONFIG = {"HEARTBEAT_INTERVAL": 30}
+
 
 def setup_logging():
     """
