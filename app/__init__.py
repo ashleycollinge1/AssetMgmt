@@ -16,9 +16,11 @@ def not_found(error):
 from app.mod_auth.controllers import mod_auth as auth_module
 from app.mod_api.controllers import mod_api as api_module
 from app.mod_frontend.controllers import mod_frontend as frontend_module
+from app.mod_agent.controllers import mod_agent as agent_module
 
 # Register blueprint(s)
 app.register_blueprint(auth_module)
 app.register_blueprint(api_module)
 app.register_blueprint(frontend_module)
+app.register_blueprint(agent_module)
 db.create_all()
