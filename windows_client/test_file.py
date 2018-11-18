@@ -16,6 +16,20 @@ def generate_data():
         servicepackversion = os.ServicePackMajorVersion
     print(operatingsystem)
     print(servicepackversion)
+    for cs in c.Win32_ComputerSystem():
+        manufacturer = cs.Manufacturer
+        model = cs.Model
+        print(model)
+    for cpu in c.Win32_Processor():
+        maxclockspeed = cpu.MaxClockSpeed
+        logicalcorecount = cpu.NumberOfLogicalProcessors
+        physicalcorecount = cpu.NumberOfCores
+        cpu_model = cpu.Name
+        print(cpu_model)
+    for mem in c.Win32_PhysicalMemory():
+        memcapingb = mem.Capacity
+        print(memcapingb)
+
 generate_data()
 
 data = {"data": {"generic": {"hostname": "test01",
