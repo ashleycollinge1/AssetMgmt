@@ -22,6 +22,18 @@ def get_configuration():
                                       "information_reload": 500}})
 
 
+@mod_agent.route('/push/client_data', methods=['POST'])
+def push_client_data():
+    """
+    Recieve a json dict with all of the information for the assetpc
+    """
+    if request.method == 'POST':
+        if request.get_json():
+            json_data = request.get_json()
+            if 'data' in json_data.keys():
+                pass
+
+
 # Set the route and accepted methods
 @mod_agent.route('/register', methods=['POST'])
 def signin():
