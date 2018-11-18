@@ -47,6 +47,7 @@ def get_assets():
             new_asset['serialnumber'] = asset.serialnumber
             new_asset['purchaseordernumber'] = asset.purchaseordernumber
             new_asset['asset_type'] = asset.asset_type
+            new_asset['last_seen'] = asset.assetpcrecord[0].last_seen
             json_results.append(new_asset)
         if not json_results:
             return jsonify({"Error": "No results found."})
