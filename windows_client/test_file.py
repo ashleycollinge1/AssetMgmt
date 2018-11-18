@@ -10,7 +10,7 @@ def generate_data():
     c = wmi.WMI()
     for bios in c.Win32_BIOS():
         serialnumber = bios.SerialNumber
-    print serialnumber
+    print(serialnumber)
 generate_data()
 
 data = {"data": {"generic": {"hostname": "test01",
