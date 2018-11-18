@@ -6,20 +6,23 @@ def generate_data():
     generate data and save in json format to be sent up to the
     service
     """
-    hostname = socket.gethostname()
+    data = {}
+    generic = {}
+    generic['hostname'] = socket.gethostname()
     c = wmi.WMI()
     for bios in c.Win32_BIOS():
         serialnumber = bios.SerialNumber
-    print(serialnumber)
+    generic['serialnumber'] = serialnumber
     for os in c.Win32_OperatingSystem():
         operatingsystem = os.caption
         servicepackversion = os.ServicePackMajorVersion
-    print(operatingsystem)
-    print(servicepackversion)
+    generic['operatingsystem'] = operatingsystem
+    generic['servicepackversion'] = servicepackversion
     for cs in c.Win32_ComputerSystem():
         manufacturer = cs.Manufacturer
         model = cs.Model
-        print(model)
+    generic['manufacturer'] = manufacturer
+    generic['model'] = model
     logicalcorecount = 0
     physicalcorecount = 0
     for cpu in c.Win32_Processor():
@@ -27,14 +30,15 @@ def generate_data():
         logicalcorecount = logicalcorecount + cpu.NumberOfLogicalProcessors
         physicalcorecount = physicalcorecount + cpu.NumberOfCores
         cpu_model = cpu.Name
-    print(cpu_model)
-    print(logicalcorecount)
-    print(physicalcorecount)
-    print(maxclockspeed)
+    generic['cpu_model'] = cpu_model
+    generic['logicalcorecount'] = logicalcorecount
+    generic['physicalcorecount'] = physicalcorecount
+    generic['maxclockspeed'] = maxclockspeed
     memcapingb = 0
     for mem in c.Win32_PhysicalMemory():
         memcapingb = memcapingb + int(mem.Capacity)
-    print(memcapingb)
+    generic['memcapingb'] = memcapingb
+    pprint(generic)
 
 generate_data()
 
