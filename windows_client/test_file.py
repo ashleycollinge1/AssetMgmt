@@ -11,6 +11,11 @@ def generate_data():
     for bios in c.Win32_BIOS():
         serialnumber = bios.SerialNumber
     print(serialnumber)
+    for os in c.Win32_OperatingSystem():
+        operatingsystem = os.caption
+        servicepackversion = os.ServicePackMajorVersion
+    print(operatingsystem)
+    print(servicepackversion)
 generate_data()
 
 data = {"data": {"generic": {"hostname": "test01",
