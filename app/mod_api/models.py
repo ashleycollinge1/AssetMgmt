@@ -12,18 +12,30 @@ class Asset(db.Model):
     date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
                               onupdate=db.func.current_timestamp())
     status = db.Column(db.String)
-    serialnumber = db.Column(db.String)
+    serialnumber = db.Column(db.String, unique=True)
     purchaseordernumber = db.Column(db.String)
     asset_type = db.Column(db.String)
+    assetpcrecord = db.relationship('AssetPC', backref='asset', lazy=True)
 
 
-class Asset_PC(db.Model):
+class WindowsAgent(db.Model):
+    """
+    Every windows pc runs an agent service which is what reports back all of the
+    information for the asset
+    """
+    id = db.Column(db.Integer, primary_key=True)
+    agent_version = db.Column(db.Integer)
+    asset_pc_id = db.Column(db.Integer, db.ForeignKey('assetpc.id'), nullable=False)
+
+
+class AssetPC(db.Model):
     """
     This contains records for all PC assets held in the estate. Each record
     has a relationship with the Asset ID in [dbo].[Asset]. This makes it easier
     when it comes to taking the machine off the domain; it still exists as an
     asset and needs to be managed - separate from the domain.
     """
+    __tablename__ = "assetpc"
     id = db.Column(db.Integer, primary_key=True)
     date_created = db.Column(db.DateTime, default=db.func.current_timestamp())
     date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
@@ -33,6 +45,9 @@ class Asset_PC(db.Model):
     operating_system = db.Column(db.String)
     service_pack_version = db.Column(db.String)
     last_bootup_time = db.Column(db.DateTime)
+    last_seen = db.Column(db.DateTime, default=db.func.current_timestamp())
+    windows_agent = db.relationship('WindowsAgent', backref='assetpc', lazy=True)
+    asset_id = db.Column(db.Integer, db.ForeignKey('asset.id'), nullable=False)
 
 
 class Asset_Location(db.Model):
