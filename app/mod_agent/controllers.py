@@ -17,7 +17,7 @@ def get_configuration():
     need to adhere too
     """
     return jsonify({"configuration": {"heartbeat_interval": 2,
-                                      "heartbeat_uri": "http://127.0.0.1:5000/agent/heartbeat",
+                                      "heartbeat_uri": "http://assetmgmt.core.local:5000/agent/heartbeat",
                                       "asset_id": 1,
                                       "information_reload": 500}})
 
