@@ -65,6 +65,7 @@ def signin():
 def heartbeat():
     """
     recieves id, api token an 'ok' message
+    updates last_seen variable in assetpc
     logs heartbeat to db and return 'ok' message
     """
     if request.get_json():
