@@ -1,6 +1,7 @@
 # Import flask dependencies
 from flask import Blueprint, request, jsonify, url_for
 from app import db
+from sqlalchemy.exc import IntegrityError
 import datetime
 
 # Define the blueprint: 'auth', set its url prefix: app.url/auth
@@ -17,7 +18,8 @@ def get_configuration():
     """
     return jsonify({"configuration": {"heartbeat_interval": 2,
                                       "heartbeat_uri": "http://127.0.0.1:5000/agent/heartbeat",
-                                      "asset_id": 1}})
+                                      "asset_id": 1,
+                                      "information_reload": 500}})
 
 
 # Set the route and accepted methods
@@ -36,6 +38,9 @@ def signin():
             if 'serialnumber' in json_data.keys():
                 # create new asset here, create new agent here and attach agent to asset
                 # also return the id and the uri to pick up the config
+                results = db.session.query(Asset).filter_by(serialnumber=json_data['serialnumber']).first()
+                if results:
+                    return jsonify({"asset_id": results.id, "config_uri": "{}".format(url_for('.get_configuration'))})
                 new_asset = Asset(serialnumber=json_data['serialnumber'],
                                   asset_type="windowspc",
                                   status="Live")
@@ -46,8 +51,12 @@ def signin():
                 new_windows_agent = WindowsAgent(agent_version=1)
                 new_assetpc.windows_agent.append(new_windows_agent)
                 new_asset.assetpcrecord.append(new_assetpc)
-                db.session.add(new_asset)
-                db.session.commit()
+                try:
+                    db.session.add(new_asset)
+                    db.session.commit()
+                except IntegrityError:
+                    db.session.rollback()
+                    return "500"
                 return jsonify({"asset_id": new_asset.id, "config_uri": "{}".format(url_for('.get_configuration'))})
     return "Hello"
 
