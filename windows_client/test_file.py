@@ -62,7 +62,7 @@ if os.path.isfile('config.json'):
 if config:
     config_uri = "agent/configuration"
     try:
-        r = requests.get("http://127.0.0.1:5000/{}".format(config_uri))
+        r = requests.get("http://assetmgmt.core.local:5000/{}".format(config_uri))
         config = r.json()['configuration']
         writeconfigtofile(config)
         start_heartbeating(config['heartbeat_interval'])
@@ -76,7 +76,7 @@ no_config = False
 while not registered:
     time.sleep(2)
     try:
-        r = requests.post("http://127.0.0.1:5000/agent/register", data=json.dumps(data), headers=headers)
+        r = requests.post("http://assetmgmt.core.local:5000/agent/register", data=json.dumps(data), headers=headers)
         asset_id = r.json()['asset_id']
         config_uri = r.json()['config_uri']
         registered = True
@@ -86,7 +86,7 @@ while not registered:
 while not no_config:
     time.sleep(2)
     try:
-        r = requests.get("http://127.0.0.1:5000{}".format(config_uri))
+        r = requests.get("http://assetmgmt.core.local:5000{}".format(config_uri))
         config = r.json()['configuration']
         writeconfigtofile(config)
         no_config = True
