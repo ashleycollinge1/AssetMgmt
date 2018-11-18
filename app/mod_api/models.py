@@ -57,6 +57,7 @@ class AssetPC(db.Model):
     windows_agent = db.relationship('WindowsAgent', backref='assetpc', lazy=True)
     asset_id = db.Column(db.Integer, db.ForeignKey('asset.id'), nullable=False)
     network_interfaces = db.relationship('Asset_PC_NetInt', backref='assetpc', lazy=True)
+    installed_software = db.relationship('Asset_PC_Software', backref='assetpc', lazy=True)
 
 
 class Asset_Location(db.Model):
@@ -90,34 +91,13 @@ class Asset_PC_NetInt(db.Model):
     asset_pc_id = db.Column(db.Integer, db.ForeignKey('assetpc.id'), nullable=False)
 
 
-"""
-class Asset_PC_PhysDisk(db.Model):
-    #Record for each physical disk on each PC
-    id = db.Column(db.Integer, primary_key=True)
-    caption = db.Column(db.String)
-    freespace = db.Column(db.Integer)
-    totalsize = db.Column(db.Integer)
-    mediatype = db.Column(db.String)
-    status = db.Column(db.String)
-    asset_pc_id =
-
-class Asset_PC_LogDisk(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    caption = db.Column(db.String)
-    freespace = db.Column(db.Integer)
-    totalsize = db.Column(db.Integer)
-    filesystem = db.Column(db.String)
-    mediatype = db.Column(db.String)
-    partition_type = db.Column(db.String)
-    asset_pc_id
-
 class Asset_PC_Software(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     displayname = db.Column(db.String)
-    version = db.Column(db.String)
-    uninstall_command = db.Column(db.String)
+    displayversion = db.Column(db.String)
     publisher = db.Column(db.String)
-    asset_pc_id =
+    asset_pc_id = db.Column(db.Integer, db.ForeignKey('assetpc.id'), nullable=False)
+"""
 
 class Asset_PC_Users(db.Model):
 
