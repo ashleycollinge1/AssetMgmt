@@ -1,5 +1,38 @@
 import requests, json, time,os
 
+data = {"data": {"generic": {"hostname": "test01",
+                             "serialnumber": "af13wd13",
+                             "domain": "domain",
+                             "operating_system": "wi7",
+                             "service_pack_version": "701",
+                             "last_bootup_time": "",
+                             "manufacturer": "manufact",
+                             "model": "model",
+                             "memorygb": "8",
+                             "physical_arch": "laptop"}},
+                {"cpu_info": {"model": "i7",
+                              "maxclockspeed": 8302,
+                              "logicalcorecount": 3,
+                              "physicalcorecount": 8}},
+                {"disk_info": {"caption": "C"}},
+                {"network_interfaces": [{"ip_address": "192.168.0.52",
+                                         "mac_address": "fnoi2n",
+                                         "subnet_mask": "255.255.255.0",
+                                         "gateway": "10.1.1.1"},
+                                         {"ip_address": "192.168.0.53",
+                                         "mac_address": "fnofasn",
+                                         "subnet_mask": "255.255.255.0",
+                                         "gateway": "10.1.1.1"}]},
+                {"installed_software": [{"DisplayVersion": "34.23",
+                                         "DisplayName": "Software",
+                                         "Publisher": "Microsoft"},
+                                         {"DisplayVersion": "34.23",
+                                         "DisplayName": "Software",
+                                         "Publisher": "Microsoft"},
+                                         {"DisplayVersion": "34.23",
+                                         "DisplayName": "Software",
+                                         "Publisher": "Microsoft"}]}}
+
 def writeconfigtofile(config):
     with open('config.json', 'w') as f:
         json.dump(config, f)
