@@ -1,4 +1,17 @@
-import requests, json, time,os
+import requests, json, time,os, socket, wmi
+
+
+def generate_data():
+    """
+    generate data and save in json format to be sent up to the
+    service
+    """
+    hostname socket.gethostname()
+    c = wmi.WMI()
+    for bios in c.Win32_BIOS():
+        serialnumber = bios.SerialNumber
+    print serialnumber
+generate_data()
 
 data = {"data": {"generic": {"hostname": "test01",
                              "serialnumber": "af13wd13",
