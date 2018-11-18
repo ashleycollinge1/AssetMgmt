@@ -56,6 +56,7 @@ class AssetPC(db.Model):
     physical_arch = db.Column(db.String)
     windows_agent = db.relationship('WindowsAgent', backref='assetpc', lazy=True)
     asset_id = db.Column(db.Integer, db.ForeignKey('asset.id'), nullable=False)
+    network_interfaces = db.relationship('Asset_PC_NetInt', backref='assetpc', lazy=True)
 
 
 class Asset_Location(db.Model):
@@ -86,6 +87,7 @@ class Asset_PC_NetInt(db.Model):
     mac_address = db.Column(db.String)
     subnet_mask = db.Column(db.String)
     gateway = db.Column(db.String)
+    asset_pc_id = db.Column(db.Integer, db.ForeignKey('assetpc.id'), nullable=False)
 
 
 """
