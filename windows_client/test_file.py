@@ -33,7 +33,7 @@ def generate_data():
     print(maxclockspeed)
     memcapingb = 0
     for mem in c.Win32_PhysicalMemory():
-        memcapingb = memcapingb + mem.Capacity
+        memcapingb = memcapingb + int(mem.Capacity)
     print(memcapingb)
 
 generate_data()
