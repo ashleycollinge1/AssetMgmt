@@ -14,3 +14,4 @@ app/mod_frontend/__pycache__/controllers.cpython-37.pyc
 windows_client/env*
 app/mod_agent/__pycache__/__init__.cpython-37.pyc
 app/mod_agent/__pycache__/controllers.cpython-37.pyc
+windows_client/config.json
