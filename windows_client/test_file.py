@@ -20,15 +20,21 @@ def generate_data():
         manufacturer = cs.Manufacturer
         model = cs.Model
         print(model)
+    logicalcorecount = 0
+    physicalcorecount = 0
     for cpu in c.Win32_Processor():
         maxclockspeed = cpu.MaxClockSpeed
-        logicalcorecount = cpu.NumberOfLogicalProcessors
-        physicalcorecount = cpu.NumberOfCores
+        logicalcorecount = logicalcorecount + cpu.NumberOfLogicalProcessors
+        physicalcorecount = physicalcorecount + cpu.NumberOfCores
         cpu_model = cpu.Name
-        print(cpu_model)
+    print(cpu_model)
+    print(logicalcorecount)
+    print(physicalcorecount)
+    print(maxclockspeed)
+    memcapingb = 0
     for mem in c.Win32_PhysicalMemory():
-        memcapingb = mem.Capacity
-        print(memcapingb)
+        memcapingb = memcapingb + mem.Capacity
+    print(memcapingb)
 
 generate_data()
 
