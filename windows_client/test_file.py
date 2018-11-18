@@ -38,7 +38,8 @@ def generate_data():
     for mem in c.Win32_PhysicalMemory():
         memcapingb = memcapingb + int(mem.Capacity)
     generic['memcapingb'] = memcapingb
-    pprint(generic)
+    pp = pprint.PrettyPrinter(indent=4)
+    pp.pprint(generic)
 
 generate_data()
 
