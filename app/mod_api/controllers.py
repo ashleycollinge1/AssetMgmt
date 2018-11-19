@@ -82,6 +82,38 @@ def get_assets():
                 return jsonify({'error': 'failed for sql reason'})
 
 
+@mod_api.route('/assets<asset_Id>/extendedinfo', methods=['GET'])
+def get_extended_info(asset_Id):
+    """
+    gets extended info for asset and return in json format
+    """
+    json_results = []
+    results = db.session.query(Asset).filter_by(id=asset_Id).first()
+    for asset in results:
+        new_asset = {}
+        new_asset['id'] = asset.id
+        new_asset['serialnumber'] = asset.serialnumber
+        new_asset['asset_type'] = asset.asset_type
+        new_asset['last_seen'] = asset.last_seen
+        extended_info = {}
+        extended_info['hostname'] = asset.assetpcrecord.hostname
+        extended_info['domain'] = asset.assetpcrecord.domain
+        extended_info['operating_system'] = asset.assetpcrecord.operating_system
+        extended_info['service_pack_version'] = asset.assetpcrecord.service_pack_version
+        extended_info['last_bootup_time'] = asset.assetpcrecord.last_bootup_time
+        extended_info['last_seen'] = asset.assetpcrecord.last_seen
+        extended_info['manufacturer'] = asset.assetpcrecord.manufacturer
+        extended_info['model'] = asset.assetpcrecord.model
+        extended_info['memorygb'] = asset.assetpcrecord.memorygb
+        extended_info['cpu_maxclockspeed'] = asset.assetpcrecord.cpu_maxclockspeed
+        extended_info['cpu_logicalcorecount'] = asset.assetpcrecord.cpu_logicalcorecount
+        extended_info['cpu_physicalcorecount'] = asset.assetpcrecord.cpu_physicalcorecount
+        extended_info['physical_arch'] = asset.assetpcrecord.physical_arch
+        new_asset['extended_info'] = extended_info
+        json_results.append(new_asset)
+    return jsonify(json_results)
+
+
 @mod_api.route('/assets/<serialnumber>/delete', methods=['GET'])
 def delete_asset(serialnumber):
     """
