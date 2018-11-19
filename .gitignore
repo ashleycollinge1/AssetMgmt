@@ -15,3 +15,13 @@ windows_client/env*
 app/mod_agent/__pycache__/__init__.cpython-37.pyc
 app/mod_agent/__pycache__/controllers.cpython-37.pyc
 windows_client/config.json
+app/mod_frontend/__pycache__/controllers.cpython-36.pyc
+app/mod_api/__pycache__/__init__.cpython-36.pyc
+app/mod_api/__pycache__/controllers.cpython-36.pyc
+app/mod_api/__pycache__/models.cpython-36.pyc
+app/mod_auth/__pycache__/__init__.cpython-36.pyc
+app/mod_auth/__pycache__/controllers.cpython-36.pyc
+app/mod_frontend/__pycache__/__init__.cpython-36.pyc
+app/mod_agent/__pycache__/controllers.cpython-36.pyc
+app/__pycache__/__init__.cpython-36.pyc
+app/mod_agent/__pycache__/__init__.cpython-36.pyc
