@@ -82,7 +82,7 @@ def get_assets():
                 return jsonify({'error': 'failed for sql reason'})
 
 
-@mod_api.route('/assets<asset_Id>/extendedinfo', methods=['GET'])
+@mod_api.route('/assets/<asset_Id>/extendedinfo', methods=['GET'])
 def get_extended_info(asset_Id):
     """
     gets extended info for asset and return in json format
