@@ -21,7 +21,8 @@ import logging
 import win32serviceutil
 import win32service
 import win32event
-import servicemanager
+import servicemanager, pythoncom
+import requests, json, time,os, socket, wmi, pprint
 
 CONFIG = {"HEARTBEAT_INTERVAL": 30}
 
@@ -39,6 +40,59 @@ def setup_logging():
     logger.addHandler(file_handler)
     return logger
 
+
+def generate_data():
+    """
+    generate data and save in json format to be sent up to the
+    service
+    """
+    data = {}
+    generic = {}
+    generic['hostname'] = socket.gethostname()
+    c = wmi.WMI()
+    for bios in c.Win32_BIOS():
+        serialnumber = bios.SerialNumber
+    generic['serialnumber'] = serialnumber
+    for os in c.Win32_OperatingSystem():
+        operatingsystem = os.caption
+        servicepackversion = os.ServicePackMajorVersion
+    generic['operatingsystem'] = operatingsystem
+    generic['servicepackversion'] = servicepackversion
+    for cs in c.Win32_ComputerSystem():
+        manufacturer = cs.Manufacturer
+        model = cs.Model
+    generic['manufacturer'] = manufacturer
+    generic['model'] = model
+    logicalcorecount = 0
+    physicalcorecount = 0
+    for cpu in c.Win32_Processor():
+        maxclockspeed = cpu.MaxClockSpeed
+        logicalcorecount = logicalcorecount + cpu.NumberOfLogicalProcessors
+        physicalcorecount = physicalcorecount + cpu.NumberOfCores
+        cpu_model = cpu.Name
+    generic['cpu_model'] = cpu_model
+    generic['logicalcorecount'] = logicalcorecount
+    generic['physicalcorecount'] = physicalcorecount
+    generic['maxclockspeed'] = maxclockspeed
+    memcapingb = 0
+    for mem in c.Win32_PhysicalMemory():
+        memcapingb = memcapingb + int(mem.Capacity)
+    generic['memcapingb'] = memcapingb
+    pp = pprint.PrettyPrinter(indent=4)
+    pp.pprint(generic)
+
+
+def writeconfigtofile(config):
+    with open('C:\\config.json', 'w') as f:
+        json.dump(config, f)
+
+def start_heartbeating(config):
+    data = {"asset_id": config['asset_id']}
+    headers = {'Content-type': 'application/json'}
+    try:
+        r = requests.post(config['heartbeat_uri'], data=json.dumps(data), headers=headers)
+    except requests.exceptions.ConnectionError:
+        print("Could not connect to service")
 
 class AppServerSvc(win32serviceutil.ServiceFramework):
     """
@@ -78,15 +132,65 @@ class AppServerSvc(win32serviceutil.ServiceFramework):
                               (self._svc_name_, ''))
         self.main()
 
+
     def main(self):
         """
         creates a new thread for the web server and starts it
         Waits for stop requested to stop the web server thread
         """
-
         # start service loop
-        while 1:
+        pythoncom.CoInitialize()
+        config = ""
+        if os.path.isfile('config.json'):
+            with open('config.json', 'r') as f:
+                config = json.load(f)
+                self.logger.info('Config existed, loading it')
+        if config:
+            config_uri = "agent/configuration"
+            try:
+                r = requests.get("http://sel-v-pydev.synseal.com:5000/{}".format(config_uri))
+                config = r.json()['configuration']
+                self.logger.info('Config loaded, writing it to file')
+                writeconfigtofile(config)
+            except requests.exceptions.ConnectionError:
+                print("Could not connect to service")
+        c = wmi.WMI()
+        for bios in c.Win32_BIOS():
+            serialnumber = bios.SerialNumber
+        data = {"serialnumber": serialnumber, "hostname": socket.gethostname(), "domain": "synseal.com", "operating_system": "win7", "servicepackversion": 4}
+        headers = {'Content-type': 'application/json'}
+        registered = False
+        no_config = False
+        while not registered:
             time.sleep(2)
+            if self.stop_requested:
+                break  # break out of service loop as stop requested
+            try:
+                self.logger.info('not registered, trying to register now')
+                r = requests.post("http://sel-v-pydev.synseal.com:5000/agent/register", data=json.dumps(data), headers=headers)
+                asset_id = r.json()['asset_id']
+                config_uri = r.json()['config_uri']
+                self.logger.info('registered successfully')
+                registered = True
+            except requests.exceptions.ConnectionError:
+                print("Could not connect to service")
+                print("Trying again...")
+        while not no_config:
+            time.sleep(2)
+            if self.stop_requested:
+                break  # break out of service loop as stop requested
+            try:
+                r = requests.get("http://sel-v-pydev.synseal.com:5000{}".format(config_uri))
+                config = r.json()['configuration']
+                writeconfigtofile(config)
+                no_config = True
+            except requests.exceptions.ConnectionError:
+                print("Could not connect to service")
+                print("Trying again...")
+        while 1:
+            self.logger.info('start heartbeating')
+            start_heartbeating(config)
+            time.sleep(config['heartbeat_interval'])
             if self.stop_requested:
                 break  # break out of service loop as stop requested
 

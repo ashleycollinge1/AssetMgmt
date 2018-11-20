@@ -93,21 +93,20 @@ def get_extended_info(asset_Id):
     new_asset['id'] = asset.id
     new_asset['serialnumber'] = asset.serialnumber
     new_asset['asset_type'] = asset.asset_type
-    new_asset['last_seen'] = asset.last_seen
     extended_info = {}
-    extended_info['hostname'] = asset.assetpcrecord.hostname
-    extended_info['domain'] = asset.assetpcrecord.domain
-    extended_info['operating_system'] = asset.assetpcrecord.operating_system
-    extended_info['service_pack_version'] = asset.assetpcrecord.service_pack_version
-    extended_info['last_bootup_time'] = asset.assetpcrecord.last_bootup_time
-    extended_info['last_seen'] = asset.assetpcrecord.last_seen
-    extended_info['manufacturer'] = asset.assetpcrecord.manufacturer
-    extended_info['model'] = asset.assetpcrecord.model
-    extended_info['memorygb'] = asset.assetpcrecord.memorygb
-    extended_info['cpu_maxclockspeed'] = asset.assetpcrecord.cpu_maxclockspeed
-    extended_info['cpu_logicalcorecount'] = asset.assetpcrecord.cpu_logicalcorecount
-    extended_info['cpu_physicalcorecount'] = asset.assetpcrecord.cpu_physicalcorecount
-    extended_info['physical_arch'] = asset.assetpcrecord.physical_arch
+    extended_info['hostname'] = asset.assetpcrecord[0].hostname
+    extended_info['domain'] = asset.assetpcrecord[0].domain
+    extended_info['operating_system'] = asset.assetpcrecord[0].operating_system
+    extended_info['service_pack_version'] = asset.assetpcrecord[0].service_pack_version
+    extended_info['last_bootup_time'] = asset.assetpcrecord[0].last_bootup_time
+    extended_info['last_seen'] = asset.assetpcrecord[0].last_seen
+    extended_info['manufacturer'] = asset.assetpcrecord[0].manufacturer
+    extended_info['model'] = asset.assetpcrecord[0].model
+    extended_info['memorygb'] = asset.assetpcrecord[0].memorygb
+    extended_info['cpu_maxclockspeed'] = asset.assetpcrecord[0].cpu_maxclockspeed
+    extended_info['cpu_logicalcorecount'] = asset.assetpcrecord[0].cpu_logicalcorecount
+    extended_info['cpu_physicalcorecount'] = asset.assetpcrecord[0].cpu_physicalcorecount
+    extended_info['physical_arch'] = asset.assetpcrecord[0].physical_arch
     new_asset['extended_info'] = extended_info
     json_results.append(new_asset)
     return jsonify(json_results)
