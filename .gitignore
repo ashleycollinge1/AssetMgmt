@@ -1,6 +1,10 @@
 env/*
 .vscode/settings.json
 __pycache__/*
+windows_client/__pycache__/*
+windows_client/dist/*
+*.spec
+windows_client/build/*
 app/__pycache__/__init__.cpython-37.pyc
 app/mod_auth/__pycache__/__init__.cpython-37.pyc
 app/mod_auth/__pycache__/controllers.cpython-37.pyc
