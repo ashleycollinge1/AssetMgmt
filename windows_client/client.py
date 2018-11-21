@@ -77,6 +77,8 @@ def generate_data():
     memcapingb = 0
     for mem in c.Win32_PhysicalMemory():
         memcapingb = memcapingb + int(mem.Capacity)
+    memcapingb = memcapingb / 1024
+    memcapingb = memcapingb / 1024
     generic['memcapingb'] = memcapingb
     data['generic'] = generic
     return data
