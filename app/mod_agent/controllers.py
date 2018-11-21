@@ -17,7 +17,7 @@ def get_configuration():
     need to adhere too
     """
     return jsonify({"configuration": {"heartbeat_interval": 15,
-                                      "heartbeat_uri": "http://sel-v-pydev.synseal.com:5000/agent/heartbeat",
+                                      "heartbeat_uri": "https://assetmgmt.ashleycollinge.co.uk/agent/heartbeat",
                                       "information_reload": 500}})
 
 
