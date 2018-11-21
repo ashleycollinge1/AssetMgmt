@@ -12,7 +12,7 @@ class Asset(db.Model):
     date_modified = db.Column(db.DateTime, default=db.func.current_timestamp(),
                               onupdate=db.func.current_timestamp())
     status = db.Column(db.String)
-    serialnumber = db.Column(db.String, unique=True)
+    serialnumber = db.Column(db.String)
     purchaseordernumber = db.Column(db.String)
     asset_type = db.Column(db.String)
     assetpcrecord = db.relationship('AssetPC', backref='asset', lazy=True)
