@@ -35,7 +35,7 @@ def setup_logging():
     logger.setLevel(logging.DEBUG)
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s '
                                   '- %(message)s')
-    file_handler = logging.FileHandler('C:\\log.log')
+    file_handler = logging.FileHandler('log.log')
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
     return logger
@@ -83,7 +83,7 @@ def generate_data():
 
 
 def writeconfigtofile(config):
-    with open('C:\\config.json', 'w') as f:
+    with open('config.json', 'w') as f:
         json.dump(config, f)
 
 def start_heartbeating(config):
