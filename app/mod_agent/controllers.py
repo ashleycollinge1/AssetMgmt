@@ -83,7 +83,6 @@ def heartbeat():
         json_data = request.get_json()
         if 'asset_id' in json_data.keys():
             asset = db.session.query(Asset).filter_by(id = json_data['asset_id']).first()
-            print(asset.id)
             asset.assetpcrecord[0].last_seen = db.func.current_timestamp()
             db.session.add(asset)
             db.session.commit()
@@ -96,7 +95,6 @@ def information_upload():
         if 'asset_id' in json_data.keys():
             # need to add asset_id to initial dict
             asset = db.session.query(Asset).filter_by(id = json_data['asset_id']).first()
-            print(asset.id)
             print(json_data)
             asset.assetpcrecord[0].hostname = json_data['generic']['hostname']
             asset.assetpcrecord[0].service_pack_version = json_data['generic']['servicepackversion']
@@ -104,6 +102,7 @@ def information_upload():
             asset.assetpcrecord[0].operating_system = json_data['generic']['operatingsystem']
             asset.assetpcrecord[0].model = json_data['generic']['model']
             asset.assetpcrecord[0].cpu_model = json_data['generic']['cpu_model']
+            print(json_data['generic']['logicalcorecount'], "logicalcorecount")
             asset.assetpcrecord[0].logicalcorecount = int(json_data['generic']['logicalcorecount'])
             asset.assetpcrecord[0].physicalcorecount = json_data['generic']['physicalcorecount']
             asset.assetpcrecord[0].maxclockspeed = json_data['generic']['maxclockspeed']
