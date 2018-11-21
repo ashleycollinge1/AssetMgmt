@@ -78,8 +78,8 @@ def generate_data():
     for mem in c.Win32_PhysicalMemory():
         memcapingb = memcapingb + int(mem.Capacity)
     generic['memcapingb'] = memcapingb
-    pp = pprint.PrettyPrinter(indent=4)
-    pp.pprint(generic)
+    data['generic'] = generic
+    return data
 
 
 def writeconfigtofile(config):
@@ -188,6 +188,10 @@ class AppServerSvc(win32serviceutil.ServiceFramework):
             except requests.exceptions.ConnectionError:
                 print("Could not connect to service")
                 print("Trying again...")
+
+        data = generate_data()
+        r = requests.post("https://assetmgmt.ashleycollinge.co.uk/agent/information_upload", data=json.dumps(data), headers=headers, verify=False)
+        self.logger.info('received {} from server'.format(r.json()))
         while 1:
             self.logger.info('start heartbeating')
             start_heartbeating(config)
