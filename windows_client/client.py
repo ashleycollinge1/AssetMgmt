@@ -191,7 +191,6 @@ class AppServerSvc(win32serviceutil.ServiceFramework):
 
         data = generate_data()
         r = requests.post("https://assetmgmt.ashleycollinge.co.uk/agent/information_upload", data=json.dumps(data), headers=headers, verify=False)
-        self.logger.info('received {} from server'.format(r.json()))
         while 1:
             self.logger.info('start heartbeating')
             start_heartbeating(config)
