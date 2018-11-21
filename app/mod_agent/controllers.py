@@ -109,4 +109,4 @@ def information_upload():
             asset.assetpcrecord[0].memcapingb = json_data['generic']['memcapingb']
             db.session.add(asset)
             db.session.commit()
-            return {"thanks": "success"}
+            return jsonify({"thanks": "success"})
