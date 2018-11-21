@@ -56,8 +56,10 @@ def generate_data():
     for os in c.Win32_OperatingSystem():
         operatingsystem = os.caption
         servicepackversion = os.ServicePackMajorVersion
+        lastbootuptime = os.LastBootUpTime
     generic['operatingsystem'] = operatingsystem
     generic['servicepackversion'] = servicepackversion
+    generic['lastbootuptime'] = lastbootuptime
     for cs in c.Win32_ComputerSystem():
         manufacturer = cs.Manufacturer
         model = cs.Model
