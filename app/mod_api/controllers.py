@@ -105,6 +105,7 @@ def get_extended_info(asset_Id):
     extended_info['memorygb'] = asset.assetpcrecord[0].memorygb
     extended_info['cpu_maxclockspeed'] = asset.assetpcrecord[0].cpu_maxclockspeed
     extended_info['cpu_logicalcorecount'] = asset.assetpcrecord[0].cpu_logicalcorecount
+    print(asset.assetpcrecord[0].cpu_logicalcorecount)
     extended_info['cpu_physicalcorecount'] = asset.assetpcrecord[0].cpu_physicalcorecount
     extended_info['cpu_model'] = asset.assetpcrecord[0].cpu_model
     extended_info['physical_arch'] = asset.assetpcrecord[0].physical_arch
