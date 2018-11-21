@@ -90,7 +90,7 @@ def start_heartbeating(config):
     data = {"asset_id": config['asset_id']}
     headers = {'Content-type': 'application/json'}
     try:
-        r = requests.post(config['heartbeat_uri'], data=json.dumps(data), headers=headers)
+        r = requests.post(config['heartbeat_uri'], data=json.dumps(data), headers=headers, verify=False)
     except requests.exceptions.ConnectionError:
         print("Could not connect to service")
 
@@ -148,7 +148,7 @@ class AppServerSvc(win32serviceutil.ServiceFramework):
         if config:
             config_uri = "agent/configuration"
             try:
-                r = requests.get("http://sel-v-pydev.synseal.com:5000/{}".format(config_uri))
+                r = requests.get("https://assetmgmt.ashleycollinge.co.uk/{}".format(config_uri), verify=False)
                 config = r.json()['configuration']
                 self.logger.info('Config loaded, writing it to file')
                 writeconfigtofile(config)
@@ -167,7 +167,7 @@ class AppServerSvc(win32serviceutil.ServiceFramework):
                 break  # break out of service loop as stop requested
             try:
                 self.logger.info('not registered, trying to register now')
-                r = requests.post("http://sel-v-pydev.synseal.com:5000/agent/register", data=json.dumps(data), headers=headers)
+                r = requests.post("https://assetmgmt.ashleycollinge.co.uk/agent/register", data=json.dumps(data), headers=headers, verify=False)
                 asset_id = r.json()['asset_id']
                 config_uri = r.json()['config_uri']
                 self.logger.info('registered successfully')
@@ -180,8 +180,9 @@ class AppServerSvc(win32serviceutil.ServiceFramework):
             if self.stop_requested:
                 break  # break out of service loop as stop requested
             try:
-                r = requests.get("http://sel-v-pydev.synseal.com:5000{}".format(config_uri))
+                r = requests.get("https://assetmgmt.ashleycollinge.co.uk{}".format(config_uri), verify=False)
                 config = r.json()['configuration']
+                config['asset_id'] = asset_id
                 writeconfigtofile(config)
                 no_config = True
             except requests.exceptions.ConnectionError:

@@ -16,9 +16,9 @@ def get_configuration():
     allows agent to get the latest configuration that they
     need to adhere too
     """
-    return jsonify({"configuration": {"heartbeat_interval": 15, # seconds
-                                      "heartbeat_uri": "http://sel-v-pydev.synseal.com:5000/agent/heartbeat",
-                                      "information_reload": 300}}) # every 5 minutes
+    return jsonify({"configuration": {"heartbeat_interval": 15,
+                                      "heartbeat_uri": "https://assetmgmt.ashleycollinge.co.uk/agent/heartbeat",
+                                      "information_reload": 300}})
 
 
 @mod_agent.route('/push/client_data', methods=['POST'])
