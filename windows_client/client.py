@@ -190,6 +190,7 @@ class AppServerSvc(win32serviceutil.ServiceFramework):
                 print("Trying again...")
 
         data = generate_data()
+        data['asset_id'] = config['asset_id']
         r = requests.post("https://assetmgmt.ashleycollinge.co.uk/agent/information_upload", data=json.dumps(data), headers=headers, verify=False)
         while 1:
             self.logger.info('start heartbeating')
