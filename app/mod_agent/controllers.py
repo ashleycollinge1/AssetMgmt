@@ -97,6 +97,7 @@ def information_upload():
             # need to add asset_id to initial dict
             asset = db.session.query(Asset).filter_by(id = json_data['asset_id']).first()
             print(asset.id)
+            print(json_data)
             asset.assetpcrecord[0].hostname = json_data['generic']['hostname']
             asset.assetpcrecord[0].service_pack_version = json_data['generic']['servicepackversion']
             asset.assetpcrecord[0].manufacturer = json_data['generic']['manufacturer']
