@@ -106,7 +106,7 @@ def information_upload():
             asset.assetpcrecord[0].cpu_physicalcorecount = json_data['generic']['physicalcorecount']
             asset.assetpcrecord[0].cpu_maxclockspeed = json_data['generic']['maxclockspeed']
             asset.assetpcrecord[0].memorygb = json_data['generic']['memcapingb']
-            #asset.assetpcrecord[0].last_bootup_time = json_data['generic']['lastbootuptime']
+            asset.assetpcrecord[0].last_bootup_time = json_data['generic']['lastbootuptime']
             asset.serialnumber = json_data['generic']['serialnumber']
             db.session.add(asset)
             db.session.commit()
