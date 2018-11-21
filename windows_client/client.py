@@ -182,6 +182,7 @@ class AppServerSvc(win32serviceutil.ServiceFramework):
             try:
                 r = requests.get("http://sel-v-pydev.synseal.com:5000{}".format(config_uri))
                 config = r.json()['configuration']
+                config['asset_id'] = asset_id
                 writeconfigtofile(config)
                 no_config = True
             except requests.exceptions.ConnectionError:
