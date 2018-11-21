@@ -105,7 +105,7 @@ def information_upload():
             asset.assetpcrecord[0].cpu_logicalcorecount = json_data['generic']['logicalcorecount']
             asset.assetpcrecord[0].cpu_physicalcorecount = json_data['generic']['physicalcorecount']
             asset.assetpcrecord[0].cpu_maxclockspeed = json_data['generic']['maxclockspeed']
-            asset.assetpcrecord[0].memcapingb = json_data['generic']['memcapingb']
+            asset.assetpcrecord[0].memorygb = json_data['generic']['memcapingb']
             db.session.add(asset)
             db.session.commit()
             return jsonify({"thanks": "success"})
