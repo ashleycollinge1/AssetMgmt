@@ -103,7 +103,7 @@ def information_upload():
             asset.assetpcrecord[0].model = json_data['generic']['model']
             asset.assetpcrecord[0].cpu_model = json_data['generic']['cpu_model']
             print(json_data['generic']['logicalcorecount'], "logicalcorecount")
-            print(asset.assetpcrecord[0].cpu_model, "logicalcorecountinsql")
+            print(asset.assetpcrecord[0].logicalcorecount, "logicalcorecountinsql")
             asset.assetpcrecord[0].logicalcorecount = int(json_data['generic']['logicalcorecount'])
             asset.assetpcrecord[0].physicalcorecount = json_data['generic']['physicalcorecount']
             asset.assetpcrecord[0].maxclockspeed = json_data['generic']['maxclockspeed']
