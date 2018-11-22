@@ -149,3 +149,12 @@ def decommission_asset(asset_id):
     except SQLAlchemyError:
         db.session.rollback()
         return jsonify({"sql error": "success"})
+
+@mod_api.errorhandler(404)
+def not_found_error(error):
+    return 404
+
+@mod_api.errorhandler(500)
+def internal_error(error):
+    db.session.rollback()
+    return 500
